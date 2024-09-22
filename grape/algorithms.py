@@ -183,7 +183,7 @@ def ge_eaSimpleWithElitism(population, toolbox, cxpb, mutpb, ngen, elite_size,
     behavioural_diversity = len(unique_behaviours) / len(population) if 'behavioural_diversity' in report_items else 0
 
     # Update the hall of fame with the generated individuals
-    if halloffame is not None:
+    if halloffame is not None and len(halloffame.items) > 0:
         halloffame.update(valid)
         best_ind_length = len(halloffame.items[0].genome)
         best_ind_nodes = halloffame.items[0].nodes
