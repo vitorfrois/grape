@@ -5,13 +5,11 @@ Created on Fri Aug 27 15:21:08 2021
 @author: allan
 """
 
-import grape
-import algorithms
-from functions import add, sub, mul, pdiv, plog, exp, psqrt
+from grape import algorithms, grape
+from grape.functions import add, sub, mul, pdiv, plog, psqrt
 
 import random
 
-from os import path
 import pandas as pd
 import numpy as np
 from deap import creator, base, tools
@@ -81,7 +79,7 @@ def setDataSet(problem):
         
         GRAMMAR_FILE = 'Dow.bnf'
         
-    BNF_GRAMMAR = grape.Grammar(r"grammars/" + GRAMMAR_FILE)
+    BNF_GRAMMAR = grape.Grammar(r"grape/grammars/" + GRAMMAR_FILE)
     
     return X_train, Y_train, X_test, Y_test, BNF_GRAMMAR
 
@@ -91,13 +89,13 @@ def fitness_eval(individual, points):
     y = points[1]
     
     if individual.invalid == True:
-        return np.NaN,
+        return np.nan,
 
     try:
         pred = eval(individual.phenotype)
     except (FloatingPointError, ZeroDivisionError, OverflowError,
             MemoryError, ValueError):
-        return np.NaN,
+        return np.nan,
     except Exception as err:
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
@@ -109,7 +107,7 @@ def fitness_eval(individual, points):
         fitness = np.mean(np.square(y - pred))
     except (FloatingPointError, ZeroDivisionError, OverflowError,
             MemoryError, ValueError):
-        fitness = np.NaN
+        fitness = np.nan
     except Exception as err:
             # Other errors should not usually happen (unless we have
             # an unprotected operator) so user would prefer to see them.
@@ -117,7 +115,7 @@ def fitness_eval(individual, points):
             raise
         
     if fitness == float("inf"):
-        return np.NaN,
+        return np.nan,
     
     return fitness,
 
@@ -147,8 +145,8 @@ POPULATION_SIZE = 200
 MAX_GENERATIONS = 200
 P_CROSSOVER = 0.8
 P_MUTATION = 0.01
-ELITE_SIZE = 0#round(0.01*POPULATION_SIZE) #it should be smaller or equal to HALLOFFAME_SIZE
-HALLOFFAME_SIZE = 1#round(0.01*POPULATION_SIZE) #it should be at least 1
+ELITE_SIZE = 0 #round(0.01*POPULATION_SIZE) #it should be smaller or equal to HALLOFFAME_SIZE
+HALLOFFAME_SIZE = 1 #round(0.01*POPULATION_SIZE) #it should be at least 1
 
 MIN_INIT_GENOME_LENGTH = 30 #used only for random initialisation
 MAX_INIT_GENOME_LENGTH = 50
@@ -222,17 +220,17 @@ for i in range(N_RUNS):
     
     # perform the Grammatical Evolution flow:
     population, logbook = algorithms.ge_eaSimpleWithElitism(population, toolbox, cxpb=P_CROSSOVER, mutpb=P_MUTATION,
-                                              ngen=MAX_GENERATIONS, elite_size=ELITE_SIZE,
-                                              bnf_grammar=BNF_GRAMMAR,
-                                              codon_size=CODON_SIZE,
-                                              max_tree_depth=MAX_TREE_DEPTH,
-                                              max_genome_length=MAX_GENOME_LENGTH,
-                                              points_train=[X_train, Y_train],
-                                              points_test=[X_test, Y_test],
-                                              codon_consumption=CODON_CONSUMPTION,
-                                              report_items=REPORT_ITEMS,
-                                              genome_representation=GENOME_REPRESENTATION,
-                                              stats=stats, halloffame=hof, verbose=False)
+                                                            ngen=MAX_GENERATIONS, elite_size=ELITE_SIZE,
+                                                            bnf_grammar=BNF_GRAMMAR,
+                                                            codon_size=CODON_SIZE,
+                                                            max_tree_depth=MAX_TREE_DEPTH,
+                                                            max_genome_length=MAX_GENOME_LENGTH,
+                                                            points_train=[X_train, Y_train],
+                                                            points_test=[X_test, Y_test],
+                                                            codon_consumption=CODON_CONSUMPTION,
+                                                            report_items=REPORT_ITEMS,
+                                                            genome_representation=GENOME_REPRESENTATION,
+                                                            stats=stats, halloffame=hof, verbose=False)
     
     import textwrap
     best = hof.items[0].phenotype
@@ -269,7 +267,7 @@ for i in range(N_RUNS):
     
     header = REPORT_ITEMS
     
-    with open(r"./results/" + str(r) + ".csv", "w", encoding='UTF8', newline='') as csvfile:
+    with open(r"./results/" + str(r) + ".csv", "w+", encoding='UTF8', newline='') as csvfile:
         writer = csv.writer(csvfile, delimiter='\t')
         writer.writerow(header)
         for value in range(len(max_fitness_values)):

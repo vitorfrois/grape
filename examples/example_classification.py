@@ -6,10 +6,8 @@ Created on Fri Aug 27 15:21:08 2021
 """
 
 import grape
-import algorithms
-from functions import add, sub, mul, pdiv, neg, and_, or_, not_, less_than_or_equal, greater_than_or_equal
+from grape import algorithms
 
-from os import path
 import pandas as pd
 import numpy as np
 from deap import creator, base, tools
@@ -23,7 +21,7 @@ problem = 'heartDisease'
 def setDataSet(problem, RANDOM_SEED):
     np.random.seed(RANDOM_SEED)
     if problem == 'australian': #66
-        data =  pd.read_csv(r"datasets/australian.dat", sep=" ")    
+        data =  pd.read_csv(r"../datasets/australian.dat", sep=" ")
         l = data.shape[0]
         Y = np.zeros([l,], dtype=int)
         for i in range(l):
@@ -135,7 +133,7 @@ def setDataSet(problem, RANDOM_SEED):
         GRAMMAR_FILE = 'spambase.bnf'
     
     if problem == 'heartDisease':
-        data =  pd.read_csv(r"datasets/processed.cleveland.data", sep=",")
+        data =  pd.read_csv(r"../datasets/processed.cleveland.data", sep=",")
         #There are some data missing on columns d11 and d12, so let's remove the rows
         data = data[data.ca != '?']
         data = data[data.thal != '?']
@@ -303,17 +301,17 @@ for i in range(N_RUNS):
     
     # perform the Grammatical Evolution flow:
     population, logbook = algorithms.ge_eaSimpleWithElitism(population, toolbox, cxpb=P_CROSSOVER, mutpb=P_MUTATION,
-                                              ngen=MAX_GENERATIONS, elite_size=ELITE_SIZE,
-                                              bnf_grammar=BNF_GRAMMAR, 
-                                              codon_size=CODON_SIZE, 
-                                              max_tree_depth=MAX_TREE_DEPTH,
-                                              max_genome_length=MAX_GENOME_LENGTH,
-                                              points_train=[X_train, Y_train], 
-                                              points_test=[X_test, Y_test], 
-                                              codon_consumption=CODON_CONSUMPTION,
-                                              report_items=REPORT_ITEMS,
-                                              genome_representation=GENOME_REPRESENTATION,                                              
-                                              stats=stats, halloffame=hof, verbose=False)
+                                                            ngen=MAX_GENERATIONS, elite_size=ELITE_SIZE,
+                                                            bnf_grammar=BNF_GRAMMAR,
+                                                            codon_size=CODON_SIZE,
+                                                            max_tree_depth=MAX_TREE_DEPTH,
+                                                            max_genome_length=MAX_GENOME_LENGTH,
+                                                            points_train=[X_train, Y_train],
+                                                            points_test=[X_test, Y_test],
+                                                            codon_consumption=CODON_CONSUMPTION,
+                                                            report_items=REPORT_ITEMS,
+                                                            genome_representation=GENOME_REPRESENTATION,
+                                                            stats=stats, halloffame=hof, verbose=False)
     
     import textwrap
     best = hof.items[0].phenotype

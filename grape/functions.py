@@ -7,7 +7,6 @@ Created on Wed Jul  7 10:31:49 2021
 """
 
 import numpy as np
-import math
 
 def sigmoid(arr):
     """

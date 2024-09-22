@@ -6,10 +6,8 @@ Created on Fri Aug 27 15:21:08 2021
 """
 
 import grape
-import algorithms
-from functions import not_, and_, or_, nand_, nor_
+from grape import algorithms
 
-from os import path
 import pandas as pd
 import numpy as np
 from deap import creator, base, tools
@@ -204,16 +202,16 @@ for i in range(N_RUNS):
     
     # perform the Grammatical Evolution flow:
     population, logbook = algorithms.ge_eaSimpleWithElitism(population, toolbox, cxpb=P_CROSSOVER, mutpb=P_MUTATION,
-                                              ngen=MAX_GENERATIONS, elite_size=ELITE_SIZE,
-                                              bnf_grammar=BNF_GRAMMAR, 
-                                              codon_size=CODON_SIZE, 
-                                              max_tree_depth=MAX_TREE_DEPTH,
-                                              max_genome_length=MAX_GENOME_LENGTH,
-                                              points_train=[X_train, Y_train], 
-                                              codon_consumption=CODON_CONSUMPTION,
-                                              report_items=REPORT_ITEMS,
-                                              genome_representation=GENOME_REPRESENTATION,                                              
-                                              stats=stats, halloffame=hof, verbose=False)
+                                                            ngen=MAX_GENERATIONS, elite_size=ELITE_SIZE,
+                                                            bnf_grammar=BNF_GRAMMAR,
+                                                            codon_size=CODON_SIZE,
+                                                            max_tree_depth=MAX_TREE_DEPTH,
+                                                            max_genome_length=MAX_GENOME_LENGTH,
+                                                            points_train=[X_train, Y_train],
+                                                            codon_consumption=CODON_CONSUMPTION,
+                                                            report_items=REPORT_ITEMS,
+                                                            genome_representation=GENOME_REPRESENTATION,
+                                                            stats=stats, halloffame=hof, verbose=False)
     
     import textwrap
     best = hof.items[0].phenotype

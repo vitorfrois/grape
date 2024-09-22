@@ -6,11 +6,7 @@ Created on Fri Sep 20 16:09:54 2024
 """
 
 import grape
-import algorithms
 
-from os import path
-import pandas as pd
-import numpy as np
 from deap import creator, base, tools
 import random
 
